@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.accenture.microservice</groupId>
+  <artifactId>microservice-training</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>microservice-training</name>
+  <url>http://maven.apache.org</url>
+
+  <modules>
+      <module>eureka-server</module>
+      <module>eureka-client-a</module>
+      <module>eureka-client-b</module>
+      <module>gateway</module>
+      <module>config</module>
+      <module>common</module>
+  </modules>
+  
+  <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    
+      <dependencyManagement>
+             <dependencies>
+                    <dependency>
+                           <groupId>org.springframework.cloud</groupId>
+                           <artifactId>spring-cloud-dependencies</artifactId>
+                           <version>Greenwich.RELEASE</version>
+                           <type>pom</type>
+                           <scope>import</scope>
+                    </dependency>
+             </dependencies>
+       </dependencyManagement>
+
+       <build>
+             <plugins>
+                    <plugin>
+                           <groupId>org.springframework.boot</groupId>
+                           <artifactId>spring-boot-maven-plugin</artifactId>
+                    </plugin>
+             </plugins>
+       </build>
+
+       <repositories>
+             <repository>
+                    <id>spring-milestones</id>
+                    <name>Spring Milestones</name>
+                    <url>https://repo.spring.io/milestone</url>
+             </repository>
+       </repositories>
+</project>
