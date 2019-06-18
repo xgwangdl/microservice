@@ -55,6 +55,11 @@
                     <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
              </dependency>
              
+	        <dependency>
+	            <groupId>com.netflix.hystrix</groupId>
+	            <artifactId>hystrix-javanica</artifactId>
+	        </dependency>
+                     
               <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>

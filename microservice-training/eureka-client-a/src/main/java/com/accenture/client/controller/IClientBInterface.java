@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name="client-b")
+@FeignClient(name="client-b", fallback=ClientBFallback.class)
 public interface IClientBInterface {
 	@RequestMapping(value ="/api/clientb/classInfo",method = RequestMethod.GET)
-	public String getClassInfo(@RequestParam String id);
+	public String getClassInfo(@RequestParam("id") String id);
 }

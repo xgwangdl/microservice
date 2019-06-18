@@ -29,7 +29,7 @@ public class SimpleRestController {
 	public CommonResult<Map<String,Object>> helloword(@RequestParam String name) {
 		Map<String,Object> userInfo = iUserAdao.getUser(name);
 		LOG.info("user info : " + userInfo);
-		String className = clientb.getClassInfo((String)userInfo.get("classId"));
+		String className = clientb.getClassInfo((String)userInfo.get("classid"));
 		userInfo.put("class", className);
 		return CommonResult.success(userInfo);
 	}
