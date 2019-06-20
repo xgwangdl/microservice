@@ -1,8 +1,13 @@
 package com.accenture.gateway.filter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -13,8 +18,12 @@ import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
 
 import com.accenture.common.util.*;
 
+@Component
 public class GrayFilter extends ZuulFilter {
 
+	@Autowired
+	private RabbitTemplate amqpTemplate;
+	
 	@Override
 	public boolean shouldFilter() {
 		return true;
@@ -34,6 +43,7 @@ public class GrayFilter extends ZuulFilter {
 			} else {
 				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "release");
 			}
+			this.amqpTemplate.convertAndSend("microservice.clienta", "microservice.clienta-key", infoMap);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

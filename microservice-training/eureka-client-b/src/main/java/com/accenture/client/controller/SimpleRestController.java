@@ -15,15 +15,12 @@ import com.accenture.client.dao.IClassBDao;
 @RequestMapping("/api/clientb")
 public class SimpleRestController {
 private static final Logger LOG = LoggerFactory.getLogger(SimpleRestController.class);
-
-	@Value("${spring.hostname}")
-	private String hostName;
 	
 	@Autowired
 	private IClassBDao iClassDao;
 	
 	@RequestMapping(value ="/classInfo",method = RequestMethod.GET)
 	public String getClassInfo(@RequestParam("id") String id) {
-		return hostName + ":" + iClassDao.getClassName(id);
+		return iClassDao.getClassName(id);
 	}
 }

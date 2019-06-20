@@ -25,8 +25,8 @@ public class SyncElasticSearchData {
 		LOG.info("Receiver1  : " + userInfo);
 		UserInfo user = new UserInfo();
 		user.setId((Integer)userInfo.get("id"));
-		user.setUserName((String)userInfo.get("name"));
-		user.setClassname((String)userInfo.get("class"));
+		user.setUserName((String)userInfo.get("userName"));
+		user.setAppid((String)userInfo.get("appid"));
 		userRepostory.save(user);
     }
 	

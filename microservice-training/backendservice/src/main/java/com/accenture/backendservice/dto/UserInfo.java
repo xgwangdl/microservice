@@ -21,7 +21,7 @@ public class UserInfo implements Serializable {
 	@Field(type = FieldType.Keyword)
 	private String userName;
 	@Field(type = FieldType.Keyword)
-	private String classname;
+	private String appid;
 	public Integer getId() {
 		return id;
 	}
@@ -34,13 +34,12 @@ public class UserInfo implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getClassname() {
-		return classname;
+	public String getAppid() {
+		return appid;
 	}
-	public void setClassname(String classname) {
-		this.classname = classname;
+	public void setAppid(String appid) {
+		this.appid = appid;
 	}
-	
 	
 	
 }

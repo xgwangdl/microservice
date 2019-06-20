@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,8 +33,8 @@ public class SimpleRestController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Autowired
-	private RabbitTemplate amqpTemplate;
+	@Value("${spring.hostname}")
+	private String hostName;
 	
 	/**
 	 * 使用feignclient调用
@@ -46,9 +47,7 @@ public class SimpleRestController {
 		Map<String, Object> userInfo = iUserAdao.getUser(name);
 		LOG.info("user info : " + userInfo);
 		String className = clientb.getClassInfo((String) userInfo.get("classid"));
-		userInfo.put("class", className);
-		
-		this.amqpTemplate.convertAndSend("microservice.clienta", "microservice.clienta-key", userInfo);
+		userInfo.put("class", hostName + ":" + className);
 		
 		return CommonResult.success(userInfo);
 	}
