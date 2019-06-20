@@ -7,6 +7,7 @@
     <artifactId>microservice-training</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  
   <artifactId>backendservice</artifactId>
   <name>backendservice</name>
   <url>http://maven.apache.org</url>
@@ -18,12 +19,12 @@
     </properties>
     
     <dependencies>
-		     <dependency>
-                 <groupId>com.accenture.microservice</groupId>
-                 <artifactId>common</artifactId>
-                 <version>0.0.1-SNAPSHOT</version>
+	        <dependency>
+                    <groupId>com.accenture.microservice</groupId>
+                    <artifactId>common</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
              </dependency>
-             <dependency>
+		  	<dependency>
 		            <groupId>org.elasticsearch</groupId>
 		            <artifactId>elasticsearch</artifactId>
 		    </dependency>

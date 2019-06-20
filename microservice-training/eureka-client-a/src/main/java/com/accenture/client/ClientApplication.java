@@ -3,6 +3,7 @@ package com.accenture.client;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableHystrix
 @EnableFeignClients
+@EnableAutoConfiguration
 public class ClientApplication {
 
 	public static void main(String[] args) {

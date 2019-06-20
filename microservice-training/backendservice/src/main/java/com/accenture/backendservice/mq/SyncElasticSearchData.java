@@ -24,9 +24,10 @@ public class SyncElasticSearchData {
     public void process(Map<String, Object> userInfo) {
 		LOG.info("Receiver1  : " + userInfo);
 		UserInfo user = new UserInfo();
-		user.setId((Long)userInfo.get("id"));
+		user.setId((Integer)userInfo.get("id"));
 		user.setUserName((String)userInfo.get("name"));
 		user.setClassname((String)userInfo.get("class"));
 		userRepostory.save(user);
     }
+	
 }
