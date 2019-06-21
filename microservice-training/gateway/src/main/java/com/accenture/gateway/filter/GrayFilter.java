@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.http.client.methods.HttpHead;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +22,12 @@ import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
 import io.reactivex.netty.protocol.http.client.HttpRequestHeaders;
 
 @Component
+@RefreshScope
 public class GrayFilter extends ZuulFilter {
 
+	@Value("${gateway.token}")
+	private String token;
+	
 	@Autowired
 	private RabbitTemplate amqpTemplate;
 	
@@ -39,7 +45,7 @@ public class GrayFilter extends ZuulFilter {
 		try {
 			Map<String,Object> infoMap = JSONUtils.json2map(jsonStr);
 			// check token
-			if (!"abc".equals(authorization)) {
+			if (!token.equals(authorization)) {
 				ctx.setSendZuulResponse(false);
 	            ctx.setResponseStatusCode(401);
 	            ctx.setResponseBody(JSONUtils.obj2json(CommonResult.failed("token is error")));
