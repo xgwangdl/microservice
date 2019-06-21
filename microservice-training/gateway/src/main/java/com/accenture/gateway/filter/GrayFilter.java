@@ -1,22 +1,23 @@
 package com.accenture.gateway.filter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.client.methods.HttpHead;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import com.accenture.common.util.JSONUtils;
+import com.accenture.common.util.result.CommonResult;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
-import io.jmnarloch.spring.cloud.ribbon.api.RibbonFilterContext;
 import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
-
-import com.accenture.common.util.*;
+import io.reactivex.netty.protocol.http.client.HttpRequestHeaders;
 
 @Component
 public class GrayFilter extends ZuulFilter {
@@ -31,12 +32,18 @@ public class GrayFilter extends ZuulFilter {
 
 	@Override
 	public Object run() throws ZuulException {
-		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+		RequestContext ctx = RequestContext.getCurrentContext();
+		HttpServletRequest request = ctx.getRequest();
 		String jsonStr = request.getHeader("info");
+		String authorization = request.getHeader("Authorization");
 		try {
 			Map<String,Object> infoMap = JSONUtils.json2map(jsonStr);
 			// check token
-			
+			if (!"abc".equals(authorization)) {
+				ctx.setSendZuulResponse(false);
+	            ctx.setResponseStatusCode(401);
+	            ctx.setResponseBody(JSONUtils.obj2json(CommonResult.failed("token is error")));
+			}
 			// check is gray
 			if ("admin".equals((String)infoMap.get("userName"))) {
 				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "gray");
