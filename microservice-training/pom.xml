@@ -18,6 +18,8 @@
       <module>config</module>
       <module>common</module>
     <module>backendservice</module>
+    <module>zipkin-server</module>
+    <module>hystrix-dashboard</module>
   </modules>
   
   <parent>
