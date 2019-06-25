@@ -2,7 +2,7 @@
 
  ![image](https://github.com/xgwangdl/microservice/blob/master/images/framework.png)
 
-ELK配置：
+ELK配置：\r\n
 1.配置elasticsearch目录下config目录的elasticsearch.yml
     cluster.name: elasticsearch
     node.name: node-1
