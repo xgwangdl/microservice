@@ -20,6 +20,7 @@
     <module>backendservice</module>
     <module>zipkin-server</module>
     <module>hystrix-dashboard</module>
+    <module>dynamic-gateway</module>
   </modules>
   
   <parent>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.accenture.dynamicgateway.dao.IGatewayConfig">
+	<select id="findAll" resultType="com.accenture.dynamicgateway.dto.GetwayConfigDTO">
+		SELECT *
+		FROM gateway_config
+	</select>
+	
+	<insert id="save" parameterType="com.accenture.dynamicgateway.dto.GetwayConfigDTO">
+		INSERT INTO gateway_config(id,uri,predicates,filters)
+		value(#{id},#{uri},#{predicates},#{filters})
+	</insert>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from gateway_config where id = #{id}
+	</delete>
+</mapper>

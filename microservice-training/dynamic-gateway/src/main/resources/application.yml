@@ -1,0 +1,25 @@
+server:
+  port: 9002
+eureka:
+  instance:
+    appname: dynamic-gateway
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+            
+gateway.token: abc
