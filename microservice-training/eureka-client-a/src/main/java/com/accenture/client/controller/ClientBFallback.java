@@ -8,8 +8,15 @@ import com.accenture.common.exception.RestException;
 public class ClientBFallback implements IClientBInterface {
 
 	@Override
-	public String getClassInfo(String id) {
-		throw new RestException("202","糟糕，服务client-b找不到了！");
+	public String getClassInfo(String authz, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getClassInfoTest(String authz, String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

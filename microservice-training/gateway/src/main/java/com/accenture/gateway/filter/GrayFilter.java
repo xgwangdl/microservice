@@ -4,14 +4,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.client.methods.HttpHead;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
+import com.accenture.common.config.ServiceConfig;
 import com.accenture.common.util.JSONUtils;
 import com.accenture.common.util.result.CommonResult;
 import com.netflix.zuul.ZuulFilter;
@@ -19,8 +19,8 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
 import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
-import io.reactivex.netty.protocol.http.client.HttpRequestHeaders;
 
+@Import(value= {ServiceConfig.class})
 @Component
 @RefreshScope
 public class GrayFilter extends ZuulFilter {
@@ -51,7 +51,7 @@ public class GrayFilter extends ZuulFilter {
 	            ctx.setResponseBody(JSONUtils.obj2json(CommonResult.failed("token is error")));
 			}
 			// check is gray
-			if ("admin".equals((String)infoMap.get("userName"))) {
+			if ("admin".equals((String)infoMap.get("userId"))) {
 				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "gray");
 			} else {
 				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "release");

@@ -66,5 +66,11 @@
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-config-client</artifactId>
              </dependency>
+             
+             <dependency>
+                    <groupId>com.accenture.microservice</groupId>
+                    <artifactId>common</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+             </dependency>
        </dependencies>
 </project>
