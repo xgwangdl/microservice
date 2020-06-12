@@ -27,6 +27,7 @@ public class SimpleRestController {
 	@Authz(value= {"aService","bService"})
 	@RequestMapping(value ="/classInfoTest",method = RequestMethod.GET)
 	public String getClassInfoTest(@RequestParam("id") String id) throws InterruptedException {
-		return ApplicationContext.getUserId() + id;
+		String appid = ApplicationContext.getUserId();
+		return appid + id;
 	}
 }

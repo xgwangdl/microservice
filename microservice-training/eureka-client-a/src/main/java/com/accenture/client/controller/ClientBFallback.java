@@ -14,7 +14,7 @@ public class ClientBFallback implements IClientBInterface {
 	}
 
 	@Override
-	public String getClassInfoTest(String authz, String id) {
+	public String getClassInfoTest(String authz,String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

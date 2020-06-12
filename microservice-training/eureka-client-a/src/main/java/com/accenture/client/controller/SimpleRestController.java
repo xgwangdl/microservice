@@ -70,7 +70,11 @@ public class SimpleRestController {
 	public CommonResult<Map<String, Object>> hellowordTest(@RequestParam String name) {
 		Map<String,Object> userInfo = new HashMap<>();
 		String authz = ApplicationContext.getAuthz();
+		String userId = ApplicationContext.getUserId();
 		String className = clientb.getClassInfoTest(authz,"test");
+//		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+//				"http://CLIENT-B//api/clientb/classInfoTest?id=" + userId, String.class);
+		
 		userInfo.put("test", hostName + ":" + className);
 		
 		return CommonResult.success(userInfo);
