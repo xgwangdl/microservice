@@ -1,14 +1,14 @@
-package com.accenture.client.advice;
+package com.accenture.common.exception;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.accenture.common.exception.RestException;
 import com.accenture.common.util.result.CommonResult;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 

@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.accenture.client.dao.IUserADao;
 import com.accenture.common.auth.Authz;
+import com.accenture.common.auth.Sign;
 import com.accenture.common.util.ApplicationContext;
 import com.accenture.common.util.result.CommonResult;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -41,6 +42,9 @@ public class SimpleRestController {
 
 	@Value("${spring.hostname}")
 	private String hostName;
+	
+	@Value("${auth.token}")
+	private String secret;
 	
 	/**
 	 * 使用feignclient调用
@@ -94,5 +98,15 @@ public class SimpleRestController {
 				"http://CLIENT-B//api/clientb/classInfo?id=" + (String) userInfo.get("classid"), String.class);
 		userInfo.put("class", responseEntity.getBody());
 		return CommonResult.success(userInfo);
+	}
+	
+	/**
+	 * 获取Token。
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
+	public String getToken(@RequestParam String userId) {
+		return Sign.getToken(userId, secret);
 	}
 }

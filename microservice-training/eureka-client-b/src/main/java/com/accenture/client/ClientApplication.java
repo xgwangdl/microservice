@@ -6,12 +6,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Import;
 
-import com.accenture.common.config.ServiceConfig;
+import com.accenture.common.config.EurekaClientConfig;
 
 @SpringBootApplication
 @EnableEurekaClient
 @EnableHystrix
-@Import(ServiceConfig.class)
+@Import({EurekaClientConfig.class})
 public class ClientApplication {
 
 	public static void main(String[] args) {

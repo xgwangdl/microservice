@@ -1,7 +1,5 @@
 package com.accenture.gateway.filter;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,23 +9,21 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
-import com.accenture.common.config.ServiceConfig;
-import com.accenture.common.util.JSONUtils;
-import com.accenture.common.util.result.CommonResult;
+import com.accenture.common.auth.Sign;
+import com.accenture.common.config.WebInterceptorConfig;
+import com.accenture.common.exception.RestException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
 import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
 
-@Import(value= {ServiceConfig.class})
+@Import(value= {WebInterceptorConfig.class})
 @Component
 @RefreshScope
 public class GrayFilter extends ZuulFilter {
 
-	@Value("${gateway.token}")
-	private String token;
-	
 	@Autowired
 	private RabbitTemplate amqpTemplate;
 	
@@ -36,31 +32,36 @@ public class GrayFilter extends ZuulFilter {
 		return true;
 	}
 
+	@Value("${auth.token}")
+	private String secret;
+	
 	@Override
 	public Object run() throws ZuulException {
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
-		String jsonStr = request.getHeader("info");
 		String authorization = request.getHeader("Authorization");
+		
+		// check token
+		DecodedJWT decodedJWT = null;
 		try {
-			Map<String,Object> infoMap = JSONUtils.json2map(jsonStr);
-			// check token
-			if (!token.equals(authorization)) {
-				ctx.setSendZuulResponse(false);
-	            ctx.setResponseStatusCode(401);
-	            ctx.setResponseBody(JSONUtils.obj2json(CommonResult.failed("token is error")));
-			}
-			// check is gray
-			if ("admin".equals((String)infoMap.get("userId"))) {
-				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "gray");
-			} else {
-				RibbonFilterContextHolder.getCurrentContext().add("host-mark", "release");
-			}
-			this.amqpTemplate.convertAndSend("microservice.clienta", "microservice.clienta-key", infoMap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			decodedJWT = Sign.verifyToken(authorization, secret);
+		} catch(RestException ex) {
+			ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+            ctx.setResponseBody(ex.getMessage());
 		}
+		
+		String userId = decodedJWT.getClaim("userId").asString();
+		ctx.addZuulRequestHeader("userId", userId);
+		
+		
+		// check is gray
+		if ("admin".equals(userId)) {
+			RibbonFilterContextHolder.getCurrentContext().add("host-mark", "gray");
+		} else {
+			RibbonFilterContextHolder.getCurrentContext().add("host-mark", "release");
+		}
+		this.amqpTemplate.convertAndSend("microservice.clienta", "microservice.clienta-key", userId);
 		
 		return null;
 	}

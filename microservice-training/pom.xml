@@ -1,84 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.accenture.microservice</groupId>
-  <artifactId>microservice-training</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+	<groupId>com.accenture.microservice</groupId>
+	<artifactId>microservice-training</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-  <name>microservice-training</name>
-  <url>http://maven.apache.org</url>
+	<name>microservice-training</name>
+	<url>http://maven.apache.org</url>
 
-  <modules>
-      <module>eureka-server</module>
-      <module>eureka-client-a</module>
-      <module>eureka-client-b</module>
-      <module>gateway</module>
-      <module>config</module>
-      <module>common</module>
-    <module>backendservice</module>
-    <module>zipkin-server</module>
-    <module>hystrix-dashboard</module>
-    <module>dynamic-gateway</module>
-  </modules>
-  
-  <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    
-      <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-    </properties>
-    
-      <dependencyManagement>
-             <dependencies>
-                    <dependency>
-                           <groupId>org.springframework.cloud</groupId>
-                           <artifactId>spring-cloud-dependencies</artifactId>
-                           <version>Greenwich.RELEASE</version>
-                           <type>pom</type>
-                           <scope>import</scope>
-                    </dependency>
-                    
-                    <dependency>
-					    <groupId>org.slf4j</groupId>
-					    <artifactId>slf4j-api</artifactId>
-					</dependency>
-					
-					<dependency>
-					    <groupId>org.slf4j</groupId>
-					    <artifactId>slf4j-log4j12</artifactId>
-					    <version>1.7.22</version>
-					</dependency>
+	<modules>
+		<module>eureka-server</module>
+		<module>eureka-client-a</module>
+		<module>eureka-client-b</module>
+		<module>gateway</module>
+		<module>config</module>
+		<module>common</module>
+		<module>backendservice</module>
+		<module>zipkin-server</module>
+		<module>hystrix-dashboard</module>
+		<module>dynamic-gateway</module>
+	</modules>
 
-					<dependency>
-						<groupId>com.auth0</groupId>
-						<artifactId>java-jwt</artifactId>
-						<version>3.8.0</version>
-					</dependency>
-             </dependencies>
-       </dependencyManagement>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
 
-       <build>
-             <plugins>
-                    <plugin>
-                           <groupId>org.springframework.boot</groupId>
-                           <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
-             </plugins>
-       </build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
 
-       <repositories>
-             <repository>
-                    <id>spring-milestones</id>
-                    <name>Spring Milestones</name>
-                    <url>https://repo.spring.io/milestone</url>
-             </repository>
-       </repositories>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Greenwich.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.22</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>3.8.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>3.2.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
 </project>
