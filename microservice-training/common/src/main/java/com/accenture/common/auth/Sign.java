@@ -31,12 +31,12 @@ public class Sign {
 		return algorithm;
 	}
 
-	public static String getToken(String userId, String secret) {
+	public static String getToken(String userName, String secret) {
 		if (StringUtils.isEmpty(secret)) {
 			throw new RestException("00X", "No signing token!");
 		}
 		Algorithm algorithm = getAlgorithm(secret);
-		String token = JWT.create().withClaim("userId", userId).withExpiresAt(new Date(System.currentTimeMillis() + 60000))
+		String token = JWT.create().withClaim("userName", userName).withExpiresAt(new Date(System.currentTimeMillis() + 600000))
 				.sign(algorithm);
 		return token;
 	}

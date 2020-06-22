@@ -9,8 +9,8 @@ public class FeignReqeustHandler implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		String userId = ApplicationContext.getUserId();
-		template.header(ApplicationContext.USER_ID, userId);
+		String userName = ApplicationContext.getUserName();
+		template.header(ApplicationContext.USER_NAME, userName);
 	}
 
 }

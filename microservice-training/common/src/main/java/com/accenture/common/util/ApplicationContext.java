@@ -5,11 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContext;
 
 public class ApplicationContext {
 
-	public static final String USER_ID = "userId";
+	public static final String USER_NAME = "userName";
 	public static final String AUTH_Z = "authz";
 	
 	private static String getRequestHeader(String key) {
@@ -21,8 +20,8 @@ public class ApplicationContext {
 		return null;
 	}
 	
-	public static String getUserId() {
-		return getRequestHeader(USER_ID);
+	public static String getUserName() {
+		return getRequestHeader(USER_NAME);
 	}
 	
 	public static String getAuthz() {

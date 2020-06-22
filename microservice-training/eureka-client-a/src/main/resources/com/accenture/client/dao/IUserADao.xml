@@ -4,7 +4,7 @@
 <mapper namespace="com.accenture.client.dao.IUserADao">
 	<select id="getUser" resultType="java.util.Map">
 		SELECT *
-		FROM UserA
+		FROM users
 		WHERE name = #{name,jdbcType=VARCHAR}
 	</select>
 </mapper>
