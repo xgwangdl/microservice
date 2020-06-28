@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.accenture.client.dao.IUserADao;
+import com.accenture.client.service.AggregatedService;
 import com.accenture.common.auth.Sign;
 import com.accenture.common.exception.RestException;
 import com.accenture.common.util.ApplicationContext;
@@ -40,6 +41,9 @@ public class UserController {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private AggregatedService countService;
 
 	@Value("${spring.hostname}")
 	private String hostName;
@@ -52,8 +56,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/showLoginUserInfo", method = RequestMethod.GET)
 	public CommonResult<Map<String, Object>> helloword() {
-		String userId = ApplicationContext.getUserName();
-		Map<String, Object> userInfo = iUserAdao.getUser(userId);
+		String userName = ApplicationContext.getUserName();
+		Map<String, Object> userInfo = iUserAdao.getUser(userName);
 		LOG.info("user info : " + userInfo);
 		String authz = ApplicationContext.getAuthz();
 		CommonResult<List<Map<String, Object>>> orderInfo = orderInterface.getOrderInfo(authz,((Long) userInfo.get("ID")).intValue());
@@ -63,6 +67,8 @@ public class UserController {
 		} else {
 			throw new RestException("201", orderInfo.getMessage());
 		}
+		
+		this.countService.count(userName);
 		
 		return CommonResult.success(userInfo);
 	}
