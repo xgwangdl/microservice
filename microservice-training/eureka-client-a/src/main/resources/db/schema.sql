@@ -8,12 +8,3 @@ CREATE TABLE users
   email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (id)
 );
-
-CREATE TABLE aggregated
-(
- id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
- user_id BIGINT(20) NOT NULL COMMENT 'User ID',
- login_time timestamp  '登陆时间',
- count BIGINT(20) NOT NULL COMMENT '计数,'
- PRIMARY KEY (id)
- );

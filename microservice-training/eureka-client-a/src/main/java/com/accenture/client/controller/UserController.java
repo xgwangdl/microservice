@@ -55,7 +55,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/showLoginUserInfo", method = RequestMethod.GET)
-	public CommonResult<Map<String, Object>> helloword() {
+	public CommonResult<Map<String, Object>> showLoginUserInfo() {
 		String userName = ApplicationContext.getUserName();
 		Map<String, Object> userInfo = iUserAdao.getUser(userName);
 		LOG.info("user info : " + userInfo);
@@ -68,11 +68,19 @@ public class UserController {
 			throw new RestException("201", orderInfo.getMessage());
 		}
 		
-		this.countService.count(userName);
+		this.countService.count((Long) userInfo.get("ID"));
 		
 		return CommonResult.success(userInfo);
 	}
 
+	@RequestMapping(value = "/showLoginCount", method = RequestMethod.GET)
+	public CommonResult<Map<String, Object>> showLoginCount() {
+		String userName = ApplicationContext.getUserName();
+		Map<String, Object> userInfo = iUserAdao.getUser(userName);
+		LOG.info("user info : " + userInfo);
+		Map<String,Object> aggregatedMap = this.iUserAdao.getAggregated(((Long) userInfo.get("ID")).intValue());
+		return CommonResult.success(aggregatedMap);
+	}
 //	/**
 //	 * 使用feignclient调用
 //	 * 

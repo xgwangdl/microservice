@@ -9,10 +9,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.accenture.common.config.EurekaClientConfig;
+import com.accenture.common.mq.RabbitMQConfig;
 
 @Configuration
 @EnableAsync
-@Import({EurekaClientConfig.class})
+@Import({EurekaClientConfig.class,RabbitMQConfig.class})
 public class AppConfig {
 
 	public static final String ASYNC_EXECUTOR_NAME = "clientA";

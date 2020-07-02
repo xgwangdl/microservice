@@ -18,25 +18,44 @@ public class RabbitMQConfig {
 	private Integer port;
 	private String username;
 	private String password;
-	public static final String DEFAULT_DIRECT_EXCHANGE = "microservice.clienta";
-	public static final String DEFAULT_QUEUE = "sendData";
-	public static final String POINT_KEY = "microservice.clienta-key";
-
+	public static final String GATE_WAY_EXCHANGE = "microservice.gateway";
+	public static final String GATE_WAY_QUEUE = "gatewayData";
+	public static final String GATE_WAY_POINT_KEY = "gateWay";
+	
+	public static final String COUNT_QUEUE = "countData";
+	public static final String COUNT_EXCHANGE = "microservice.count";
+	public static final String COUNT_POINT_KEY = "count";
+	
 	@Bean
-	public Queue defaultQueue() {
-		return new Queue(DEFAULT_QUEUE, true, false, true);
+	public Queue gateWayQueue() {
+		return new Queue(GATE_WAY_QUEUE, true, false, true);
 	}
 
 	@Bean
-	public DirectExchange defaultExchange() {
-		return new DirectExchange(DEFAULT_DIRECT_EXCHANGE, true, false);
+	public Queue countQueue() {
+		return new Queue(COUNT_QUEUE, true, false, true);
+	}
+	
+	@Bean
+	public DirectExchange gatewayExchange() {
+		return new DirectExchange(GATE_WAY_EXCHANGE, true, false);
 	}
 
 	@Bean
-	public Binding defaultBinding() {
-		return BindingBuilder.bind(defaultQueue()).to(defaultExchange()).with(POINT_KEY);
+	public DirectExchange countExchange() {
+		return new DirectExchange(COUNT_EXCHANGE, true, false);
+	}
+	
+	@Bean
+	public Binding gatewayBinding() {
+		return BindingBuilder.bind(gateWayQueue()).to(gatewayExchange()).with(GATE_WAY_POINT_KEY);
 	}
 
+	@Bean
+	public Binding countBinding() {
+		return BindingBuilder.bind(countQueue()).to(countExchange()).with(COUNT_POINT_KEY);
+	}
+	
 	@Bean
 	public ConnectionFactory connectionFactory() {
 	    CachingConnectionFactory connectionFactory = new CachingConnectionFactory(this.host,this.port);

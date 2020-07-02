@@ -7,4 +7,10 @@
 		FROM users
 		WHERE name = #{name,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="getAggregated" resultType="java.util.Map">
+		SELECT *
+		FROM aggregated
+		WHERE user_id = #{userId,jdbcType=INTEGER}
+	</select>
 </mapper>

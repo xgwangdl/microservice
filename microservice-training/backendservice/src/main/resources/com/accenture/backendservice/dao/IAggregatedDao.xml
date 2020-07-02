@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper
+	namespace="com.accenture.backendservice.dao.IAggregatedDao">
+	<update id="mergeAggregated" parameterType="com.accenture.backendservice.dto.AggregatedDto">
+		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(*) from aggregated where user_id = #{aggregatedDto.userId,jdbcType=INTEGER}
+        </selectKey>
+        <if test="count > 0">
+        	update aggregated set count = count + #{aggregatedDto.count,jdbcType=INTEGER} where user_id = #{aggregatedDto.userId,jdbcType=INTEGER};
+        </if>
+        <if test="count==0">
+        	insert INTO aggregated(user_id,count) values(#{aggregatedDto.userId,jdbcType=INTEGER},#{aggregatedDto.count,jdbcType=INTEGER});
+        </if>
+        <foreach collection="aggregatedDto.loginTimes" item="loginTime" index="index">
+			INSERT INTO aggregatedDTL(user_id,login_time)
+			VALUES(#{aggregatedDto.userId,jdbcType=INTEGER},#{loginTime,jdbcType=TIMESTAMP});
+		</foreach>
+	</update>
+
+	<insert id="insertAggregatedDtl" parameterType="com.accenture.backendservice.dto.AggregatedDto">
+		<foreach collection="aggregatedDto.loginTimes" item="loginTime" index="index">
+			INSERT INTO aggregatedDTL(user_id,login_time)
+			VALUES(#{userId,jdbcType=INTEGER},#{loginTime,jdbcType=TIMESTAMP});
+		</foreach>
+	</insert>
+</mapper>
