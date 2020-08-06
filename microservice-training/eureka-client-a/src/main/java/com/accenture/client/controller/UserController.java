@@ -81,27 +81,6 @@ public class UserController {
 		Map<String,Object> aggregatedMap = this.iUserAdao.getAggregated(((Long) userInfo.get("ID")).intValue());
 		return CommonResult.success(aggregatedMap);
 	}
-//	/**
-//	 * 使用feignclient调用
-//	 * 
-//	 * @param name
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/hellowordTest", method = RequestMethod.GET)
-//	@Authz(value= {"aService"})
-//	public CommonResult<Map<String, Object>> hellowordTest(@RequestParam String name) {
-//		Map<String,Object> userInfo = new HashMap<>();
-//		String authz = ApplicationContext.getAuthz();
-//		String userId = ApplicationContext.getUserId();
-//		String className = clientb.getClassInfoTest(authz,"test");
-////		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-////				"http://CLIENT-B//api/clientb/classInfoTest?id=" + userId, String.class);
-//		
-//		userInfo.put("test", hostName + ":" + className);
-//		
-//		return CommonResult.success(userInfo);
-//	}
-//	
 	/**
 	 * 使用resttemplate調用
 	 * @param name

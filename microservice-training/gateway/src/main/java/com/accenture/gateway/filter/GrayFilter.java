@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.accenture.common.auth.Sign;
 import com.accenture.common.mq.RabbitMQConfig;
+import com.accenture.gateway.redis.RedisManager;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -40,6 +41,9 @@ public class GrayFilter extends ZuulFilter {
 	@Value("${server.port}")
 	private String port;
 
+	@Autowired
+	private RedisManager redisManager;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(GrayFilter.class);
 
 	@Override
@@ -80,6 +84,28 @@ public class GrayFilter extends ZuulFilter {
 
 		this.amqpTemplate.convertAndSend(RabbitMQConfig.GATE_WAY_EXCHANGE, RabbitMQConfig.GATE_WAY_POINT_KEY, loginMap);
 
+		Integer count = (Integer)this.redisManager.getValue(userName);
+		if (count != null) {
+			Long expire  = this.redisManager.getExpire(userName);
+			if (expire > -1L) {
+				// The same user accessed more than 10 times in 10 seconds.
+				if (count > 10) {
+					ctx.setSendZuulResponse(false);
+					ctx.setResponseStatusCode(501);
+					ctx.setResponseBody("The same user accessed more than 10 times in 10 seconds.");
+					return null;
+				} else {
+					this.redisManager.increValue(userName);
+				}
+			} else {
+				// Redis expires.
+				this.redisManager.deleteValue(userName);
+				this.redisManager.putValueExpireTimes(userName, 1 , 10L);
+				this.redisManager.increValue(userName);
+			}
+		} else {
+			this.redisManager.putValueExpireTimes(userName, 1 , 10L);
+		}
 		return null;
 	}
 
@@ -92,5 +118,4 @@ public class GrayFilter extends ZuulFilter {
 	public int filterOrder() {
 		return 0;
 	}
-
 }

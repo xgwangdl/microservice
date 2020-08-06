@@ -14,7 +14,7 @@ import com.accenture.common.util.result.CommonResult;
 
 @FeignClient(name = "client-b",path = "/api/order", fallback= OrderFallback.class)
 public interface IOrderInterface {
-	@RequestMapping(value = "/getOrderInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderInfo", method = RequestMethod.GET)
 	public CommonResult<List<Map<String, Object>>> getOrderInfo(@RequestHeader(ApplicationContext.AUTH_Z) String authz,
 			@RequestParam("userId") Integer userId);
 }

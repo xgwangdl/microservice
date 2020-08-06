@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.accenture.common.mq.RabbitMQConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.accenture.common.mq.RabbitMQConfig,\
+com.accenture.common.redis.RedisConfig

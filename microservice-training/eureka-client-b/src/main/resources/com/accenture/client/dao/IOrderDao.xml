@@ -8,4 +8,39 @@
 		FROM orders
 		WHERE user_id = #{userId,jdbcType=INTEGER}
 	</select>
+
+	<select id="getOrderInfoByOrderId" resultType="java.util.Map">
+		SELECT *
+		FROM orders
+		WHERE id = #{orderId,jdbcType=INTEGER}
+	</select>
+	
+	<insert id="saveOrderInfo"
+		parameterType="com.accenture.client.dto.OrderDto">
+		INSERT INTO orders(name,price,count,user_id,order_time)
+		VALUES(#{order.name,jdbcType=VARCHAR},#{order.price,jdbcType=INTEGER},#{order.count,jdbcType=INTEGER},#{order.userId,jdbcType=INTEGER},CURRENT_TIME);
+	</insert>
+	
+	<insert id="saveOutboxInfo">
+		INSERT INTO outbox(order_type,content,sts)
+		VALUES(#{type,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},'1');
+	</insert>
+	
+	<delete id="deleteOrderInfo">
+	    DELETE
+	    FROM orders
+	    where id = #{orderId,jdbcType=INTEGER}
+	</delete>
+	
+	<select id="getOutboxInfoByNotProcess" resultType="java.util.Map">
+		SELECT *
+		FROM outbox
+		WHERE sts = '1'
+	</select>
+	
+	<update id="updateOutboxInfo" >
+		UPDATE outbox
+		SET sts = #{status,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

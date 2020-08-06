@@ -15,7 +15,7 @@ import com.accenture.common.config.EurekaClientConfig;
 @Import({EurekaClientConfig.class})
 public class AppConfig {
 
-	public static final String ASYNC_EXECUTOR_NAME = "clientA";
+	public static final String ASYNC_EXECUTOR_NAME = "clientB";
 	
 	@Bean(name=ASYNC_EXECUTOR_NAME)
 	public Executor asyncExcecutor() {
@@ -24,7 +24,7 @@ public class AppConfig {
 		taskExecutor.setMaxPoolSize(5);
 		taskExecutor.setQueueCapacity(20);
 		taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
-		taskExecutor.setThreadNamePrefix("clientA-");
+		taskExecutor.setThreadNamePrefix("clientB-");
 		taskExecutor.initialize();
 		return taskExecutor;
 	}

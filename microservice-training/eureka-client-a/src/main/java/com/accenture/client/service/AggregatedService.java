@@ -22,7 +22,6 @@ public class AggregatedService {
 	@Autowired
 	private RabbitTemplate amqpTemplate;
 	
-	// 计数器
 	private static Map<Long,List<Timestamp>> countMap = new HashMap<>();
 	
 	@Async(AppConfig.ASYNC_EXECUTOR_NAME)
@@ -37,6 +36,7 @@ public class AggregatedService {
 			countMap.put(userId, loginTime);
 		}
 	}
+	
 	@PostConstruct
 	public void sendMqs() throws InterruptedException {
 		RabbitTemplate rt = this.amqpTemplate;
@@ -48,7 +48,6 @@ public class AggregatedService {
 					try {
 						Thread.sleep(60000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					if (countMap.size() > 0) {

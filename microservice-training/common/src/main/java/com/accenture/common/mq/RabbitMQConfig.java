@@ -26,6 +26,10 @@ public class RabbitMQConfig {
 	public static final String COUNT_EXCHANGE = "microservice.count";
 	public static final String COUNT_POINT_KEY = "count";
 	
+	public static final String ORDER_QUEUE = "orderData";
+	public static final String ORDER_EXCHANGE = "microservice.order";
+	public static final String ORDER_POINT_KEY = "order";
+	
 	@Bean
 	public Queue gateWayQueue() {
 		return new Queue(GATE_WAY_QUEUE, true, false, true);
@@ -34,6 +38,11 @@ public class RabbitMQConfig {
 	@Bean
 	public Queue countQueue() {
 		return new Queue(COUNT_QUEUE, true, false, true);
+	}
+	
+	@Bean
+	public Queue orderQueue() {
+		return new Queue(ORDER_QUEUE, true, false, true);
 	}
 	
 	@Bean
@@ -47,6 +56,11 @@ public class RabbitMQConfig {
 	}
 	
 	@Bean
+	public DirectExchange orderExchange() {
+		return new DirectExchange(ORDER_EXCHANGE, true, false);
+	}
+	
+	@Bean
 	public Binding gatewayBinding() {
 		return BindingBuilder.bind(gateWayQueue()).to(gatewayExchange()).with(GATE_WAY_POINT_KEY);
 	}
@@ -54,6 +68,11 @@ public class RabbitMQConfig {
 	@Bean
 	public Binding countBinding() {
 		return BindingBuilder.bind(countQueue()).to(countExchange()).with(COUNT_POINT_KEY);
+	}
+	
+	@Bean
+	public Binding orderBinding() {
+		return BindingBuilder.bind(orderQueue()).to(orderExchange()).with(ORDER_POINT_KEY);
 	}
 	
 	@Bean

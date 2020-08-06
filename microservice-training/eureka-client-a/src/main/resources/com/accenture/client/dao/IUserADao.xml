@@ -13,4 +13,17 @@
 		FROM aggregated
 		WHERE user_id = #{userId,jdbcType=INTEGER}
 	</select>
+	
+	<update id="updateUser">
+		UPDATE
+		    users
+		SET
+		    point_count = point_count + #{money,jdbcType=INTEGER}
+		WHERE
+		    id = #{userId,jdbcType=INTEGER}
+	</update>
+	
+	<insert id="savePoint">
+		INSERT INTO points(user_id,money,order_time) values(#{userId,jdbcType=INTEGER},#{money,jdbcType=INTEGER},#{orderTime,jdbcType=TIMESTAMP})
+	</insert>
 </mapper>

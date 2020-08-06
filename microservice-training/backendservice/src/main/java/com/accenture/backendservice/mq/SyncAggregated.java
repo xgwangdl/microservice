@@ -31,7 +31,6 @@ public class SyncAggregated {
 			dto.setCount(value.size());
 			dto.setLoginTimes(value);
 			this.dao.mergeAggregated(dto);
-			//this.dao.insertAggregatedDtl(dto);
 		});
     }
 }
