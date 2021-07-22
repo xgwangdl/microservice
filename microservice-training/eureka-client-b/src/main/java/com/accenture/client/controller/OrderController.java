@@ -18,9 +18,13 @@ import com.accenture.client.dto.OrderDto;
 import com.accenture.common.auth.Authz;
 import com.accenture.common.util.JSONUtils;
 import com.accenture.common.util.result.CommonResult;
+import com.accenture.globaltransaction.anotaion.Transaction;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/order")
+@Slf4j
 public class OrderController implements ApplicationContextAware {
 	
 	@Autowired
@@ -44,12 +48,15 @@ public class OrderController implements ApplicationContextAware {
 		return CommonResult.success(orderInfos);
 	}
 	
+	//@GlobalTransaction(start = false)
+	@Transaction
 	@Authz(value= {"bService"})
 	@RequestMapping(value ="/orderInfo",method = RequestMethod.DELETE)
 	public CommonResult<Map<String,Object>> saveOrderInfo(@RequestParam("orderId") Integer orderId) throws Exception {
 		Map<String,Object> orderInfo = this.iOrderDao.getOrderInfoByOrderId(orderId);
 		this.iOrderDao.deleteOrderInfo(orderId);
 		this.iOrderDao.saveOutboxInfo("2", JSONUtils.obj2json(orderInfo));
+		log.info("UserA-done");
 		return CommonResult.success(null);
 	}
 

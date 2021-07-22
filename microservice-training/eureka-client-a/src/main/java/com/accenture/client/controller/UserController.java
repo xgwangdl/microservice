@@ -23,12 +23,17 @@ import com.accenture.common.auth.Sign;
 import com.accenture.common.exception.RestException;
 import com.accenture.common.util.ApplicationContext;
 import com.accenture.common.util.result.CommonResult;
+import com.accenture.common.util.result.ResultCode;
+import com.accenture.globaltransaction.anotaion.GlobalTransaction;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RefreshScope
 @EnableCircuitBreaker
 @RequestMapping("/api/user")
+@Slf4j
 public class UserController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -105,5 +110,28 @@ public class UserController {
 	@RequestMapping(value = "/getToken/{userName}/{secret}", method = RequestMethod.GET)
 	public String getToken(@PathVariable String userName,@PathVariable String secret) {
 		return Sign.getToken(userName, secret);
+	}
+	
+	/**
+	 * 验证分布式事务
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@GlobalTransaction(start = true)
+	//@Transactional
+	@RequestMapping(value = "/globalTansacationTest", method = RequestMethod.GET)
+	public CommonResult<Map<String, Object>> globalTansacationTest(@RequestParam int orderId,@RequestParam int error) {
+		String userName = ApplicationContext.getUserName();
+		Map<String, Object> userInfo = iUserAdao.getUser(userName);
+		this.iUserAdao.updateUser(((Long)userInfo.get("ID")).intValue(), 100);
+		String authz = ApplicationContext.getAuthz();
+		CommonResult<Map<String, Object>> orderInfo = this.orderInterface.saveOrderInfo(authz, Integer.valueOf(orderId));
+		if (ResultCode.FAILED.getCode() == orderInfo.getCode()) {
+			throw new RestException(String.valueOf(orderInfo.getCode()),orderInfo.getMessage());
+		}
+		log.info("UserA-done");
+		int a = 1/error;
+		return CommonResult.success(null);
 	}
 }

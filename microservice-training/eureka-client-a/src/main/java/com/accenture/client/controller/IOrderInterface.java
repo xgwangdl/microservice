@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.accenture.common.util.ApplicationContext;
 import com.accenture.common.util.result.CommonResult;
 
-@FeignClient(name = "client-b",path = "/api/order", fallback= OrderFallback.class)
+@FeignClient(name = "client-b", path = "/api/order", fallback = OrderFallback.class)
 public interface IOrderInterface {
 	@RequestMapping(value = "/orderInfo", method = RequestMethod.GET)
 	public CommonResult<List<Map<String, Object>>> getOrderInfo(@RequestHeader(ApplicationContext.AUTH_Z) String authz,
 			@RequestParam("userId") Integer userId);
+
+	@RequestMapping(value = "/orderInfo", method = RequestMethod.DELETE)
+	public CommonResult<Map<String, Object>> saveOrderInfo(@RequestHeader(ApplicationContext.AUTH_Z) String authz,
+			@RequestParam("orderId") Integer orderId);
 }

@@ -30,7 +30,7 @@ public class OrderService {
 					public void run() {
 						while(true) {
 							try {
-								Thread.sleep(6000);
+								Thread.sleep(60000);
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

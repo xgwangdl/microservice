@@ -27,12 +27,14 @@ public class PointService {
 		}
 		String content = msg.get("content");
 		Map<String,Object> orderData = JSONUtils.json2map(content);
-		Integer userId = (Integer)orderData.get("userId");
-		Integer price = (Integer)orderData.get("price");
-		Integer count = (Integer)orderData.get("count");
-		Integer money = price * count * unit;
-		Timestamp orderTime = (Timestamp)orderData.get("order_time");
-		this.iUserAdao.updateUser(userId, money);
-		this.iUserAdao.savePoint(userId, money, orderTime);
+		if (orderData != null && (Integer)orderData.get("userId") != null) {
+			Integer userId = (Integer)orderData.get("userId");
+			Integer price = (Integer)orderData.get("price");
+			Integer count = (Integer)orderData.get("count");
+			Integer money = price * count * unit;
+			Timestamp orderTime = (Timestamp)orderData.get("order_time");
+			this.iUserAdao.updateUser(userId, money);
+			this.iUserAdao.savePoint(userId, money, orderTime);
+		}
 	}
 }
