@@ -2,6 +2,12 @@
 
  ![image](https://github.com/xgwangdl/microservice/blob/master/images/framework.png)
 
+部署图
+ ![image](https://github.com/xgwangdl/microservice/blob/master/images/devlopment.png)
+ 
+ 分布式事务图
+  ![image](https://github.com/xgwangdl/microservice/blob/master/images/distribute.png)
+
 ELK配置：  
 1.配置elasticsearch目录下config目录的elasticsearch.yml  
     cluster.name: elasticsearch  
